@@ -1,0 +1,30 @@
+# Chad Duffey 
+# MIPS assembly language program 
+
+.data              
+
+	index:	.byte 0							
+	value:	.word 3							#value to increment each element with
+	arr:	.word 1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0		#initialise the array with some values
+
+.text
+
+	main:                  
+		la	$t0, arr					#address of start of array
+		li	$t1, 0						#starting value for index
+		li	$t2, 20						#maximum value of index
+		li	$t4, 4						#load an offset value
+		la	$t0, arr					#put address of arr into $t0
+
+	for_loop:
+		lw	$t5, 0($t0)					#load array value
+		add	$t5, $t5, $t5					#double the array value
+		la	$t6, value					#load address of the value variable
+		lw	$t7, 0($t6)					#load the value variable
+		add	$t5, $t5, $t7					#add the "value" and the current array
+		sw	$t5, 0($t0)					#store the new value in original location
+		addi	$t1, $t1, 1					#add 1 to index
+		add	$t0, $t0, $t4					#add the offset to the memory address for next run
+		blt	$t1, $t2, for_loop				#keep doing loop if less than 20
+	                      
+		

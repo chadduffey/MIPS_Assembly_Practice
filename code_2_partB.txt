@@ -1,0 +1,84 @@
+# Chad Duffey 
+# Task 5 - Add two integers in two ways (loops till 0 entered)
+	.data
+
+	# Program strings
+	prompt1: 	.asciiz "Enter first integer: "
+	prompt2: 	.asciiz "Enter second integer: "
+	result: 	.asciiz "The (add) sum of the integers is: "
+	result2:	.asciiz "The (addu) sum of the integers is: "
+	linefeed: 	.asciiz "\n"
+	
+	.text
+	
+main:		
+		
+
+for_loop: 	
+
+		# prompt for an integer
+		li $v0,4 		# syscall code for print_string 
+		la $a0,prompt1 		# set the $a0 register to prompt string
+		syscall 		# print prompt
+
+		# get an integer from the user
+		li $v0,5 		# syscall code for read_int
+		syscall 		# get input from user - syscall puts it in $v0
+		move $t0,$v0 		# move result to temp register $t0
+
+		#prompt for another integer
+		li $v0,4 		# syscall code for print_string
+		la $a0,prompt2 		# set the $a0 register to prompt string
+		syscall 		# print prompt
+
+		# get second integer from the user
+		li $v0,5 		# syscall code for read_int
+		syscall 		# get input from user - syscall puts it in $v0
+		move $t1,$v0 		# move the result to temp register $t1	
+	
+		# add the integers using add
+		add $t3, $t0, $t1 	# t3 = t0 + t1
+
+		#add the integers using addu
+		addu $t4, $t0, $t1	# t4 = t0 + t1
+
+		# print text string for the (add) result
+		li $v0,4 		# syscall code for print_string
+		la $a0,result	 	# set the $a0 register to result string
+		syscall 		# print result string
+
+		# print out the (add) result
+		li $v0,1 		# syscall code for print_int
+		move $a0,$t3 		# put result from t3 into $a0 to be used by syscall
+		syscall 		# print the result
+
+		# print out a line feed
+		li $v0,4 		# syscall code for print_string
+		la $a0,linefeed 	# put linefeed code in $a0 
+		syscall 		# print the linefeed		
+
+		## print text string for the (addu) result
+		li $v0,4 		# syscall code for print_string
+		la $a0,result2	 	# set the $a0 register to result2 string
+		syscall 		# print result string
+
+		## print out the (addu) result
+		li $v0,1 		# syscall code for print_int
+		move $a0,$t4 		# put result from t4 into $a0 to be used by syscall
+		syscall 		# print the result
+
+		# print out a line feed
+		li $v0,4 		# syscall code for print_string
+		la $a0,linefeed 	# put linefeed code in $a0 
+		syscall 		# print the linefeed
+
+		#end_program if zeros are entered
+		beqz $t3, end_program	#branch if $t3 == 0
+		
+		#do loop if anything else was entered
+		bnez $t3, for_loop	#branch if $t3 == anything else
+
+end_program:
+
+	
+
